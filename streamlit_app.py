@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+python -m pip install -r requirements.txt
+python -m streamlit run streamlit_app.py
+
 st.set_page_config(page_title="FFA Trading", layout="wide")
 st.title("FFA Trading")
 

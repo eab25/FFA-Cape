@@ -1,9 +1,30 @@
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
-st.title('🎈 FFA Cape V1 ')
+# Title for your app
+st.title("Baltic Exchange Historic Data Visualization")
 
-st.write('Lets builde a trading strategies')
-import os
+# Upload the CSV file
+uploaded_file = st.file_uploader("Upload Baltic Exchange CSV", type="csv")
 
-# Default CSV to load
-DEFAULT_FILE = os.path.join("data", "Baltic Exchange - Historic Data 020120 290825.csv")
+if uploaded_file:
+    df = pd.read_csv(uploaded_file, parse_dates=['Date'])
+    st.write("Data Preview:", df.head())
+
+    # Select columns to plot
+    options = st.multiselect(
+        "Select columns to plot",
+        ['C5TC', 'HS7TC', 'P4TC', 'S10TC'],
+        default=['C5TC', 'HS7TC', 'P4TC', 'S10TC']
+    )
+
+    # Plot using matplotlib
+    fig, ax = plt.subplots(figsize=(18, 8))
+    for col in options:
+        ax.plot(df['Date'], df[col], label=col)
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Value')
+    ax.set_title('Baltic Exchange Historic Rates')
+    ax.legend()
+    st.pyplot(fig)
